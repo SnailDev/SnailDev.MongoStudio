@@ -1,0 +1,32 @@
+<%- include("./_layout/header.ejs") %>
+
+
+<div class="content">
+    <div class="l-loading" id="loading">
+    </div>
+    <div id="topmenu" class="l-topmenu">
+        <div class="l-topmenu-logo"><a href="/">MongoStudio</a></div>
+    </div>
+    <div id="body">
+        <div position="left" title="服务器列表" id="left">
+            <div class="l-scroll">
+                <div class="l-loading" id="tree_loading">
+                </div>
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+        <div position="center" id="framecenter">
+            <div tabid="home" title="主页" class="home">
+                <iframe id="0" frameborder="0" name="home" src="/introduction"></iframe>
+            </div>
+        </div>
+    </div>
+    <footer>
+        Copyright © 2015-2018 SnailTeam
+    </footer>
+
+</div>
+
+<script src="js/index.js"></script>
+
+<%- include("./_layout/footer.ejs") %>
