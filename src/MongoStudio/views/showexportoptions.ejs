@@ -1,0 +1,24 @@
+<%- include("./_layout/header.ejs") %>
+    <link href="lib/json/s.css" rel="stylesheet" />
+    <style>
+        #options {
+            margin-left: 2.5em;
+        }
+
+        .l-form .l-form-buttons {
+            float: right;
+            margin-right: 50px;
+            margin-top: 20px;
+        }
+    </style>
+
+<div id="options"></div>
+<div id="textViewContent" hidden="hidden">
+
+    <div id="Canvas" class="Canvas"></div>
+</div>
+
+    <script src="lib/json/c.js"></script>
+    <script src="js/showexportoptions.js"></script>
+
+    <%- include("./_layout/footer.ejs") %>

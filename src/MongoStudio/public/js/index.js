@@ -47,31 +47,31 @@ $(document).ready(function () {
         isExpand: 2,
         isLeaf: function (data) {
             if (!data) return false;
-            return data.Type == 5;
+            return data.Type == 'index';
         },
         delay: function (e) {
-            var data = e.data;
-            switch (data.Type) {
-                case 1:
-                    return { url: '/Home/GetServerDetail?id=' + data.ID + '&type=2&serverName=' + data.Name };
-                case 2:
-                    return { url: '/Home/GetServerDetail?id=' + data.ID + '&type=3&serverName=' + tree.getDataByID(data.PID).Name + '&dbName=' + data.ShowName };
-                case 3:
-                    return { url: '/Home/GetServerDetail?id=' + data.ID + '&type=7' };
-                case 7:
-                    return { url: '/Home/GetServerDetail?id=' + data.ID + '&type=5&serverName=' + tree.getDataByID(tree.getDataByID(tree.getDataByID(data.PID).PID).PID).Name + '&dbName=' + tree.getDataByID(tree.getDataByID(data.PID).PID).ShowName + '&collectionName=' + tree.getDataByID(data.PID).Name };
+             var data = e.data;
+             switch (data.Type) {
+                case 'server':
+                    return { url: '/getserver?id=' + data.ID + '&type=db&server=' + data.Name };
+                case 'db':
+                    return { url: '/getserver?id=' + data.ID + '&type=col&server=' + tree.getDataByID(data.PID).Name + '&db=' + data.ShowName };
+                case 'col':
+                    return { url: '/getserver?id=' + data.ID + '&type=indexContainer' };
+                case 'indexContainer':
+                    return { url: '/getserver?id=' + data.ID + '&type=index&server=' + tree.getDataByID(tree.getDataByID(tree.getDataByID(data.PID).PID).PID).Name + '&db=' + tree.getDataByID(tree.getDataByID(data.PID).PID).ShowName + '&col=' + tree.getDataByID(data.PID).Name };
                 default:
                     return false;
             }
         },
         onSelect: function (node) {
             if (!node.flag) return;
-            if (node.data.Type != 3) return;
+            if (node.data.Type != 'col') return;
             actionNodeID = node.data.ID;
-            f_addTab(undefined, tree.getDataByID(tree.getDataByID(node.data.PID).PID).ShowName + "\\" + node.data.Name, "/DBAdmin/ShowData?serverName=" + tree.getDataByID(tree.getDataByID(node.data.PID).PID).Name + "&dbName=" + tree.getDataByID(node.data.PID).ShowName + "&collectionName=" + node.data.Name + "&serverShowName=" + tree.getDataByID(tree.getDataByID(node.data.PID).PID).ShowName);
+            f_addTab(undefined, tree.getDataByID(tree.getDataByID(node.data.PID).PID).ShowName + "\\" + node.data.Name, "/showdata?server=" + tree.getDataByID(tree.getDataByID(node.data.PID).PID).Name + "&db=" + tree.getDataByID(node.data.PID).ShowName + "&col=" + node.data.Name + "&serverName=" + tree.getDataByID(tree.getDataByID(node.data.PID).PID).ShowName);
         },
         onContextmenu: function (node, e) {
-            if (node.data.Type == 1) {
+            if (node.data.Type == 'server') {
                 actionNodeID = node.data.ID;
                 // 树的右击菜单
                 menu = $.ligerMenu({
@@ -166,7 +166,7 @@ function initTree() {
         tree.clear();
         tab.removeAll();
         $("#tree_loading").show();
-        tree.loadData(null, "/getserver?type=1");
+        tree.loadData(null, "/getserver?type=server");
         $("#tree_loading").hide();
     }
     catch (e) {
