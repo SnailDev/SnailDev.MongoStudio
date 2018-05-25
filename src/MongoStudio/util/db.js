@@ -125,7 +125,7 @@ exports.getdata = function (server, db, col, jsonfind, jsonfield, jsonsort, skip
         var curCol = client.db(db).collection(col);
         curCol.find(jsonfind).limit(limit).count(function (e, count) {
             var command = curCol.find(jsonfind).sort(jsonsort).project(jsonfield).skip(skip).limit(limit);
-            if (isPager == 1) command.skip((page - 1) * pageSize).limit(pageSize);
+            if (isPager == 1) command.skip(((page - 1) * pageSize + skip)).limit(pageSize);  // skip function will be overwrite, so should add previous skip value
             command.toArray(function (err, items) {
                 var columns = [];
                 items.forEach(element => {
