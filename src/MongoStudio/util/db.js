@@ -12,6 +12,8 @@ exports.getservers = function (callback) {
             Name: '127.0.0.1:27017',
             Icon: '/lib/ligerui/skins/icons/process.gif',
         }
+
+        // you can add your db server struct here and just need modify **ShowName** and **Name**.
     ]
 
     if (callback) callback(servers);

@@ -9,6 +9,28 @@ npm install
 npm start
 ```
 
+### How to add db server
+open src/MongoStudio/util/db.js
+
+```node
+exports.getservers = function (callback) {
+    var servers = [
+        {
+            ID: genNonDuplicateID(3),
+            PID: 0,
+            Type: 'server',
+            ShowName: 'LocalDB',
+            Name: '127.0.0.1:27017',
+            Icon: '/lib/ligerui/skins/icons/process.gif',
+        }
+
+        // you can add your db server struct here and just need modify **ShowName** and **Name**.
+    ]
+
+    if (callback) callback(servers);
+}
+```
+
 ### Preview
 - index
 ![](images/home.jpg)
