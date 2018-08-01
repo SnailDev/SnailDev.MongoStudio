@@ -20,7 +20,9 @@ exports.getservers = function (callback) {
 }
 
 exports.getdbs = function (id, server, callback) {
-    MongoClient.connect(server, function (err, client) {
+    MongoClient.connect(server,{
+        uri_decode_auth: true
+        }, function (err, client) {
         var adminDb = client.db('admin').admin();
         // List all the available databases
         adminDb.listDatabases(function (err, dbs) {
@@ -47,7 +49,9 @@ exports.getdbs = function (id, server, callback) {
 }
 
 exports.getcols = function (id, server, db, callback) {
-    MongoClient.connect(server, function (err, client) {
+    MongoClient.connect(server,{
+        uri_decode_auth: true
+        }, function (err, client) {
         var curDb = client.db(db)
         // List all the available collections
         curDb.listCollections().toArray(function (err, items) {
@@ -90,7 +94,9 @@ exports.getindexContainer = function (id, callback) {
 }
 
 exports.getindexes = function (id, server, db, col, callback) {
-    MongoClient.connect(server, function (err, client) {
+    MongoClient.connect(server, {
+        uri_decode_auth: true
+        },function (err, client) {
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         // List all the available collections
@@ -122,7 +128,9 @@ exports.getindexes = function (id, server, db, col, callback) {
 }
 
 exports.getdata = function (server, db, col, jsonfind, jsonfield, jsonsort, skip, limit, page, pageSize, viewType, isPager, callback) {
-    MongoClient.connect(server, function (err, client) {
+    MongoClient.connect(server, {
+        uri_decode_auth: true
+        },function (err, client) {
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         curCol.find(jsonfind).limit(limit).count(function (e, count) {
@@ -163,7 +171,9 @@ exports.getdata = function (server, db, col, jsonfind, jsonfield, jsonsort, skip
 }
 
 exports.getdatadetail = function (server, db, col, id, jsonfield, callback) {
-    MongoClient.connect(server, function (err, client) {
+    MongoClient.connect(server,{
+        uri_decode_auth: true
+        }, function (err, client) {
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         var jsonfind = {};
@@ -197,7 +207,9 @@ exports.getdatadetail = function (server, db, col, id, jsonfield, callback) {
 }
 
 exports.explain = function (server, db, col, jsonfind, jsonfield, jsonsort, skip, limit, callback) {
-    MongoClient.connect(server, function (err, client) {
+    MongoClient.connect(server,{
+        uri_decode_auth: true
+        }, function (err, client) {
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         curCol.find(jsonfind).sort(jsonsort).project(jsonfield).skip(skip).limit(limit).explain(function (err, doc) {
