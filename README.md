@@ -49,6 +49,10 @@ exports.getservers = function (callback) {
 - [jsonformat](http://tool.oschina.net/codeformat/json)
 - [jquery](http://jquery.com/)
 
+### Donate
+if this project is useful to you, you could ask me for a cup of coffee.
+![](images/wechatpay.jpg) ![](images/alipay.jpg)
+
 ## License
 
 The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
