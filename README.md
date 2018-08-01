@@ -51,7 +51,7 @@ exports.getservers = function (callback) {
 
 ### Donate
 if this project is useful to you, you could ask me for a cup of coffee.
-![](images/wechatpay.jpg) ![](images/alipay.jpg)
+<div  width="100" height="100">![](images/wechatpay.jpg)</div> <div  width="100" height="100"> ![](images/alipay.jpg)</div>
 
 ## License
 
