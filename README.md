@@ -52,6 +52,7 @@ exports.getservers = function (callback) {
 ### Donate
 if this project is useful to you, you could ask me for a cup of coffee.
 <div  width="100" height="100">![](images/wechatpay.jpg)</div> <div  width="100" height="100"> ![](images/alipay.jpg)</div>
+<img src="https://github.com/HeTingwei/ReadmeLearn/blob/master/avatar1.jpg" width="150" height="150" alt="图片加载失败时，显示这段字"/>
 
 ## License
 
