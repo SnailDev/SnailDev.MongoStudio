@@ -68,9 +68,9 @@ router.post('/getdata', function (req, res, next) {
   var server = 'mongodb://' + req.body.server;
   var db = req.body.db;
   var col = req.body.col;
-  var jsonfind = req.body.jsonfind || {};
-  var jsonfield = req.body.jsonfield || {};
-  var jsonsort = req.body.jsonsort || { "_id": 1 };
+  var jsonfind = JSON.parse(req.body.jsonfind || "{}");
+  var jsonfield = JSON.parse( req.body.jsonfield || "{}");
+  var jsonsort = JSON.parse(req.body.jsonsort || "{ \"_id\": 1 }");
   var skip = parseInt(req.body.skip || 0);
   var limit = parseInt(req.body.limit || 30);
   var page = parseInt(req.body.page || 1);
@@ -87,7 +87,7 @@ router.post('/getdatadetail', function (req, res, next) {
   var server = 'mongodb://' + req.body.server;
   var db = req.body.db;
   var col = req.body.col;
-  var jsonfield = req.body.jsonfield || {};
+  var jsonfield = JSON.parse(req.body.jsonfield || "{}");
   var id = req.body.did;
   mongo.getdatadetail(server, db, col, id, jsonfield, dataReturn);
 });
@@ -98,9 +98,9 @@ router.post('/explain', function (req, res, next) {
   var server = 'mongodb://' + req.body.server;
   var db = req.body.db;
   var col = req.body.col;
-  var jsonfind = req.body.jsonfind || {};
-  var jsonfield = req.body.jsonfield || {};
-  var jsonsort = req.body.jsonsort || { "_id": 1 };
+  var jsonfind = JSON.parse(req.body.jsonfind || "{}");
+  var jsonfield = JSON.parse(req.body.jsonfield || "{}");
+  var jsonsort = JSON.parse(req.body.jsonsort || "{ \"_id\": 1 }");
   var skip = parseInt(req.body.skip || 0);
   var limit = parseInt(req.body.limit || 30);
 
