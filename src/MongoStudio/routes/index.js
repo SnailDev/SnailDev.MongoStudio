@@ -39,11 +39,11 @@ router.post('/getserver', function (req, res, next) {
       mongo.getservers(infoReturn);
       break;
     case 'db':
-      var server = 'mongodb://' + req.query.server;
+      var server = req.query.server;
       mongo.getdbs(id, server, infoReturn);
       break;
     case 'col':
-      var server = 'mongodb://' + req.query.server;
+      var server = req.query.server;
       var db = req.query.db;
       mongo.getcols(id, server, db, infoReturn);
       break;
@@ -51,7 +51,7 @@ router.post('/getserver', function (req, res, next) {
       mongo.getindexContainer(id, infoReturn);
       break;
     case 'index':
-      var server = 'mongodb://' + req.query.server;
+      var server = req.query.server;
       var db = req.query.db;
       var col = req.query.col;
       mongo.getindexes(id, server, db, col, infoReturn);
@@ -65,11 +65,11 @@ router.post('/getserver', function (req, res, next) {
 router.post('/getdata', function (req, res, next) {
   var dataReturn = function (result) { res.json(result); };
 
-  var server = 'mongodb://' + req.body.server;
+  var server = req.body.server;
   var db = req.body.db;
   var col = req.body.col;
-  var jsonfind = JSON.parse(req.body.jsonfind || "{}");
-  var jsonfield = JSON.parse( req.body.jsonfield || "{}");
+  var jsonfind = mongo.handleJsonFind(JSON.parse(req.body.jsonfind || "{}"));
+  var jsonfield = JSON.parse(req.body.jsonfield || "{}");
   var jsonsort = JSON.parse(req.body.jsonsort || "{ \"_id\": 1 }");
   var skip = parseInt(req.body.skip || 0);
   var limit = parseInt(req.body.limit || 30);
@@ -84,7 +84,7 @@ router.post('/getdata', function (req, res, next) {
 router.post('/getdatadetail', function (req, res, next) {
   var dataReturn = function (result) { res.json(result); };
 
-  var server = 'mongodb://' + req.body.server;
+  var server = req.body.server;
   var db = req.body.db;
   var col = req.body.col;
   var jsonfield = JSON.parse(req.body.jsonfield || "{}");
@@ -95,10 +95,10 @@ router.post('/getdatadetail', function (req, res, next) {
 router.post('/explain', function (req, res, next) {
   var dataReturn = function (result) { res.json(result); };
 
-  var server = 'mongodb://' + req.body.server;
+  var server = req.body.server;
   var db = req.body.db;
   var col = req.body.col;
-  var jsonfind = JSON.parse(req.body.jsonfind || "{}");
+  var jsonfind =  mongo.handleJsonFind(JSON.parse(req.body.jsonfind || "{}"));
   var jsonfield = JSON.parse(req.body.jsonfield || "{}");
   var jsonsort = JSON.parse(req.body.jsonsort || "{ \"_id\": 1 }");
   var skip = parseInt(req.body.skip || 0);

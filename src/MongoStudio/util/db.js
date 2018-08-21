@@ -9,7 +9,7 @@ exports.getservers = function (callback) {
             PID: 0,
             Type: 'server',
             ShowName: 'LocalDB',
-            Name: '127.0.0.1:27017',
+            Name: 'muser:1qaz2wsx@121.40.119.230:27017',
             Icon: '/lib/ligerui/skins/icons/process.gif',
         }
 
@@ -20,12 +20,22 @@ exports.getservers = function (callback) {
 }
 
 exports.getdbs = function (id, server, callback) {
-    MongoClient.connect(server,{
-        uri_decode_auth: true
-        }, function (err, client) {
+    var auth = server.substr(0, server.lastIndexOf('@'));
+    var url = 'mongodb://' + server.substr(server.lastIndexOf('@') + 1, server.length);
+    options = { authSource: 'admin', useNewUrlParser: true };
+    if (auth != '') {
+        options.auth = {};
+        options.auth.user = decodeURIComponent(auth.split(':')[0]);
+        options.auth.password = decodeURIComponent(auth.split(':')[1]);
+    }
+
+    MongoClient.connect(url, options, function (err, client) {
+        if (err) { console.log(err); return; }
         var adminDb = client.db('admin').admin();
         // List all the available databases
         adminDb.listDatabases(function (err, dbs) {
+            if (err) { console.log(err); return; }
+
             var dbNodes = [];
             dbs.databases.forEach(element => {
                 if (element.name != 'local' && element.name != 'admin') {
@@ -49,12 +59,21 @@ exports.getdbs = function (id, server, callback) {
 }
 
 exports.getcols = function (id, server, db, callback) {
-    MongoClient.connect(server,{
-        uri_decode_auth: true
-        }, function (err, client) {
-        var curDb = client.db(db)
+    var auth = server.substr(0, server.lastIndexOf('@'));
+    var url = 'mongodb://' + server.substr(server.lastIndexOf('@') + 1, server.length);
+    options = { authSource: 'admin', useNewUrlParser: true };
+    if (auth != '') {
+        options.auth = {};
+        options.auth.user = decodeURIComponent(auth.split(':')[0]);
+        options.auth.password = decodeURIComponent(auth.split(':')[1]);
+    }
+
+    MongoClient.connect(url, options, function (err, client) {
+        if (err) { console.log(err); return; }
+        var curDb = client.db(db);
         // List all the available collections
         curDb.listCollections().toArray(function (err, items) {
+            if (err) { console.log(err); return; }
             var colNodes = [];
             items.sort(function (item1, item2) {
                 if (item1.name > item2.name)
@@ -94,13 +113,22 @@ exports.getindexContainer = function (id, callback) {
 }
 
 exports.getindexes = function (id, server, db, col, callback) {
-    MongoClient.connect(server, {
-        uri_decode_auth: true
-        },function (err, client) {
+    var auth = server.substr(0, server.lastIndexOf('@'));
+    var url = 'mongodb://' + server.substr(server.lastIndexOf('@') + 1, server.length);
+    options = { authSource: 'admin', useNewUrlParser: true };
+    if (auth != '') {
+        options.auth = {};
+        options.auth.user = decodeURIComponent(auth.split(':')[0]);
+        options.auth.password = decodeURIComponent(auth.split(':')[1]);
+    }
+
+    MongoClient.connect(url, options, function (err, client) {
+        if (err) { console.log(err); return; }
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         // List all the available collections
         curCol.listIndexes().toArray(function (err, items) {
+            if (err) { console.log(err); return; }
             var indexNodes = [];
             items.sort(function (item1, item2) {
                 if (item1.name > item2.name)
@@ -128,15 +156,24 @@ exports.getindexes = function (id, server, db, col, callback) {
 }
 
 exports.getdata = function (server, db, col, jsonfind, jsonfield, jsonsort, skip, limit, page, pageSize, viewType, isPager, callback) {
-    MongoClient.connect(server, {
-        uri_decode_auth: true
-        },function (err, client) {
+    var auth = server.substr(0, server.lastIndexOf('@'));
+    var url = 'mongodb://' + server.substr(server.lastIndexOf('@') + 1, server.length);
+    options = { authSource: 'admin', useNewUrlParser: true };
+    if (auth != '') {
+        options.auth = {};
+        options.auth.user = decodeURIComponent(auth.split(':')[0]);
+        options.auth.password = decodeURIComponent(auth.split(':')[1]);
+    }
+
+    MongoClient.connect(url, options, function (err, client) {
+        if (err) { console.log(err); return; }
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         curCol.find(jsonfind).limit(limit).count(function (e, count) {
             var command = curCol.find(jsonfind).sort(jsonsort).project(jsonfield).skip(skip).limit(limit);
             if (isPager == 1) command.skip(((page - 1) * pageSize + skip)).limit(pageSize);  // skip function will be overwrite, so should add previous skip value
             command.toArray(function (err, items) {
+                if (err) { console.log(err); return; }
                 var columns = [];
                 items.forEach(element => {
                     Object.keys(element).forEach(field => {
@@ -171,9 +208,17 @@ exports.getdata = function (server, db, col, jsonfind, jsonfield, jsonsort, skip
 }
 
 exports.getdatadetail = function (server, db, col, id, jsonfield, callback) {
-    MongoClient.connect(server,{
-        uri_decode_auth: true
-        }, function (err, client) {
+    var auth = server.substr(0, server.lastIndexOf('@'));
+    var url = 'mongodb://' + server.substr(server.lastIndexOf('@') + 1, server.length);
+    options = { authSource: 'admin', useNewUrlParser: true };
+    if (auth != '') {
+        options.auth = {};
+        options.auth.user = decodeURIComponent(auth.split(':')[0]);
+        options.auth.password = decodeURIComponent(auth.split(':')[1]);
+    }
+
+    MongoClient.connect(url, options, function (err, client) {
+        if (err) { console.log(err); return; }
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         var jsonfind = {};
@@ -191,6 +236,7 @@ exports.getdatadetail = function (server, db, col, id, jsonfield, callback) {
 
         curCol.find(jsonfind).project(jsonfield).toArray(function (err, items) {
             client.close();
+            if (err) { console.log(err); return; }
             if (callback) {
                 if (items.length > 1) {
                     callback({ Success: false, Message: '数据重复', Row: '' });
@@ -207,12 +253,21 @@ exports.getdatadetail = function (server, db, col, id, jsonfield, callback) {
 }
 
 exports.explain = function (server, db, col, jsonfind, jsonfield, jsonsort, skip, limit, callback) {
-    MongoClient.connect(server,{
-        uri_decode_auth: true
-        }, function (err, client) {
+    var auth = server.substr(0, server.lastIndexOf('@'));
+    var url = 'mongodb://' + server.substr(server.lastIndexOf('@') + 1, server.length);
+    options = { authSource: 'admin', useNewUrlParser: true };
+    if (auth != '') {
+        options.auth = {};
+        options.auth.user = decodeURIComponent(auth.split(':')[0]);
+        options.auth.password = decodeURIComponent(auth.split(':')[1]);
+    }
+
+    MongoClient.connect(url, options, function (err, client) {
+        if (err) { console.log(err); return; }
         // Create a collection we want to drop later
         var curCol = client.db(db).collection(col);
         curCol.find(jsonfind).sort(jsonsort).project(jsonfield).skip(skip).limit(limit).explain(function (err, doc) {
+            if (err) { console.log(err); return; }
             var list = [];
             buildTreeNode(list, 0, doc);
             client.close();
@@ -241,4 +296,16 @@ function genNonDuplicateID(randomLength) {
     let idStr = Date.now().toString(36)
     idStr += Math.random().toString(36).substr(3, randomLength)
     return idStr
+}
+
+exports.handleJsonFind = function handleJsonFind(jsonfind) {
+    if (jsonfind.hasOwnProperty("_id")) {
+        if (typeof jsonfind["_id"] == 'string') {
+            if (ObjectID.isValid(jsonfind["_id"])) {
+                jsonfind["_id"] = new ObjectID(jsonfind["_id"]);
+            }
+        }
+    }
+
+    return jsonfind;
 }

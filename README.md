@@ -29,6 +29,8 @@ exports.getservers = function (callback) {
 
     if (callback) callback(servers);
 }
+
+Find with objectId, just use string value, such as {"_id":"55ae2b90fb99313f33c05384"}
 ```
 
 ### Preview
