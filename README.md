@@ -53,7 +53,9 @@ Find with objectId, just use string value, such as {"_id":"55ae2b90fb99313f33c05
 
 ### Donate
 if this project is useful to you, you could ask me for a cup of coffee.
-![](images/wechatpay.jpg) ![](images/alipay.jpg)
+
+<img src="https://github.com/SnailDev/SnailDev.MongoStudio/blob/master/images/wechatpay.jpg" width="250" height="350" alt="微信"/>
+<img src="https://github.com/SnailDev/SnailDev.MongoStudio/blob/master/images/alipay.jpg" width="250" height="350" alt="支付宝"/>
 
 ## License
 
